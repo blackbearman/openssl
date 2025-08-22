@@ -178,7 +178,7 @@ int ASN1_item_verify_ctx(const ASN1_ITEM *it, const X509_ALGOR *alg,
             }
 
             if (mdnid != NID_undef) {
-                type = EVP_get_digestbynid(mdnid);
+                type = EVP_MD_fetch(NULL, OBJ_nid2sn(mdnid), NULL);
                 if (type == NULL) {
                     ERR_raise_data(ERR_LIB_ASN1,
                                    ASN1_R_UNKNOWN_MESSAGE_DIGEST_ALGORITHM,
