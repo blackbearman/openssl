@@ -406,7 +406,7 @@ CMS_SignerInfo *CMS_add1_signer(CMS_ContentInfo *cms,
                            "pkey nid=%d", EVP_PKEY_get_id(pk));
             goto err;
         }
-        md = EVP_get_digestbynid(def_nid);
+        md = EVP_MD_fetch(NULL, OBJ_nid2sn(def_nid), NULL);
         if (md == NULL) {
             ERR_raise_data(ERR_LIB_CMS, CMS_R_NO_DEFAULT_DIGEST,
                            "default md nid=%d", def_nid);
