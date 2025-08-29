@@ -1166,7 +1166,8 @@ EVP_MD *EVP_MD_fetch(OSSL_LIB_CTX *ctx, const char *algorithm,
     EVP_MD *md =
         evp_generic_fetch(ctx, OSSL_OP_DIGEST, algorithm, properties,
                           evp_md_from_algorithm, evp_md_up_ref, evp_md_free);
-
+    if (md)
+        md->type = OBJ_sn2nid(EVP_MD_get0_name(md));
     return md;
 }
 
