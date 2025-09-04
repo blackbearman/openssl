@@ -6646,6 +6646,76 @@
 #define NID_ML_KEM_1024         1456
 #define OBJ_ML_KEM_1024         OBJ_nistKems,3L
 
+#define OBJ_by          1L,2L,112L
+
+#define OBJ_belt                OBJ_by,0L,2L,0L,34L,101L,31L
+
+#define SN_belt_hash            "belt-hash"
+#define LN_belt_hash            "belt-hash"
+#define NID_belt_hash           1501
+#define OBJ_belt_hash           OBJ_belt,81L
+
+#define SN_belt_che256          "belt-che256"
+#define LN_belt_che256          "belt-che256"
+#define NID_belt_che256         1502
+#define OBJ_belt_che256         OBJ_belt,66L
+
+#define OBJ_bash                OBJ_by,0L,2L,0L,34L,101L,77L
+
+#define SN_bash256              "bash256"
+#define LN_bash256              "bash256"
+#define NID_bash256             1503
+#define OBJ_bash256             OBJ_bash,11L
+
+#define SN_bash384              "bash384"
+#define LN_bash384              "bash384"
+#define NID_bash384             1504
+#define OBJ_bash384             OBJ_bash,12L
+
+#define SN_bash512              "bash512"
+#define LN_bash512              "bash512"
+#define NID_bash512             1505
+#define OBJ_bash512             OBJ_bash,13L
+
+#define SN_bash_prg_ae2561              "bash-prg-ae2561"
+#define LN_bash_prg_ae2561              "bash-prg-ae2561"
+#define NID_bash_prg_ae2561             1506
+#define OBJ_bash_prg_ae2561             OBJ_bash,35L
+
+#define SN_bign         "bign"
+#define NID_bign                1513
+#define OBJ_bign                OBJ_by,0L,2L,0L,34L,101L,45L
+
+#define SN_bign_curve256v1              "bign-curve256v1"
+#define LN_bign_curve256v1              "bign-curve256v1"
+#define NID_bign_curve256v1             1507
+#define OBJ_bign_curve256v1             OBJ_bign,3L,1L
+
+#define SN_bign_curve384v1              "bign-curve384v1"
+#define LN_bign_curve384v1              "bign-curve384v1"
+#define NID_bign_curve384v1             1508
+#define OBJ_bign_curve384v1             OBJ_bign,3L,2L
+
+#define SN_bign_curve512v1              "bign-curve512v1"
+#define LN_bign_curve512v1              "bign-curve512v1"
+#define NID_bign_curve512v1             1509
+#define OBJ_bign_curve512v1             OBJ_bign,3L,3L
+
+#define SN_bign_with_hbelt              "bign-with-hbelt"
+#define LN_bign_with_hbelt              "bign-with-hbelt"
+#define NID_bign_with_hbelt             1510
+#define OBJ_bign_with_hbelt             OBJ_bign,12L
+
+#define SN_bign_with_bash384            "bign-with-bash384"
+#define LN_bign_with_bash384            "bign-with-bash384"
+#define NID_bign_with_bash384           1511
+#define OBJ_bign_with_bash384           OBJ_bign,14L
+
+#define SN_bign_with_bash512            "bign-with-bash512"
+#define LN_bign_with_bash512            "bign-with-bash512"
+#define NID_bign_with_bash512           1512
+#define OBJ_bign_with_bash512           OBJ_bign,15L
+
 #endif /* OPENSSL_OBJ_MAC_H */
 
 #ifndef OPENSSL_NO_DEPRECATED_3_0

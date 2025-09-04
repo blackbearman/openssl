@@ -10,7 +10,7 @@
  */
 
 /* Serialized OID's */
-static const unsigned char so[9571] = {
+static const unsigned char so[9690] = {
     0x2A,0x86,0x48,0x86,0xF7,0x0D,                 /* [    0] OBJ_rsadsi */
     0x2A,0x86,0x48,0x86,0xF7,0x0D,0x01,            /* [    6] OBJ_pkcs */
     0x2A,0x86,0x48,0x86,0xF7,0x0D,0x02,0x02,       /* [   13] OBJ_md2 */
@@ -1353,9 +1353,22 @@ static const unsigned char so[9571] = {
     0x2A,0x86,0x48,0x86,0xF7,0x0D,0x01,0x09,0x10,0x03,0x1E,  /* [ 9538] OBJ_HKDF_SHA512 */
     0x2A,0x86,0x48,0x86,0xF7,0x0D,0x01,0x09,0x10,0x0D,  /* [ 9549] OBJ_id_smime_ori */
     0x2A,0x86,0x48,0x86,0xF7,0x0D,0x01,0x09,0x10,0x0D,0x03,  /* [ 9559] OBJ_id_smime_ori_kem */
+    0x2A,0x70,0x00,0x02,0x00,0x22,0x65,0x1F,0x51,  /* [ 9570] OBJ_belt_hash */
+    0x2A,0x70,0x00,0x02,0x00,0x22,0x65,0x1F,0x42,  /* [ 9579] OBJ_belt_che256 */
+    0x2A,0x70,0x00,0x02,0x00,0x22,0x65,0x4D,0x0B,  /* [ 9588] OBJ_bash256 */
+    0x2A,0x70,0x00,0x02,0x00,0x22,0x65,0x4D,0x0C,  /* [ 9597] OBJ_bash384 */
+    0x2A,0x70,0x00,0x02,0x00,0x22,0x65,0x4D,0x0D,  /* [ 9606] OBJ_bash512 */
+    0x2A,0x70,0x00,0x02,0x00,0x22,0x65,0x4D,0x23,  /* [ 9615] OBJ_bash_prg_ae2561 */
+    0x2A,0x70,0x00,0x02,0x00,0x22,0x65,0x2D,0x03,0x01,  /* [ 9624] OBJ_bign_curve256v1 */
+    0x2A,0x70,0x00,0x02,0x00,0x22,0x65,0x2D,0x03,0x02,  /* [ 9634] OBJ_bign_curve384v1 */
+    0x2A,0x70,0x00,0x02,0x00,0x22,0x65,0x2D,0x03,0x03,  /* [ 9644] OBJ_bign_curve512v1 */
+    0x2A,0x70,0x00,0x02,0x00,0x22,0x65,0x2D,0x0C,  /* [ 9654] OBJ_bign_with_hbelt */
+    0x2A,0x70,0x00,0x02,0x00,0x22,0x65,0x2D,0x0E,  /* [ 9663] OBJ_bign_with_bash384 */
+    0x2A,0x70,0x00,0x02,0x00,0x22,0x65,0x2D,0x0F,  /* [ 9672] OBJ_bign_with_bash512 */
+    0x2A,0x70,0x00,0x02,0x00,0x22,0x65,0x2D,       /* [ 9681] OBJ_bign */
 };
 
-#define NUM_NID 1501
+#define NUM_NID 1514
 static const ASN1_OBJECT nid_objs[NUM_NID] = {
     {"UNDEF", "undefined", NID_undef},
     {"rsadsi", "RSA Data Security, Inc.", NID_rsadsi, 6, &so[0]},
@@ -2858,9 +2871,22 @@ static const ASN1_OBJECT nid_objs[NUM_NID] = {
     {"id-alg-hkdf-with-sha512", "HKDF-SHA512", NID_HKDF_SHA512, 11, &so[9538]},
     {"id-smime-ori", "id-smime-ori", NID_id_smime_ori, 10, &so[9549]},
     {"id-smime-ori-kem", "id-smime-ori-kem", NID_id_smime_ori_kem, 11, &so[9559]},
+    {"belt-hash", "belt-hash", NID_belt_hash, 9, &so[9570]},
+    {"belt-che256", "belt-che256", NID_belt_che256, 9, &so[9579]},
+    {"bash256", "bash256", NID_bash256, 9, &so[9588]},
+    {"bash384", "bash384", NID_bash384, 9, &so[9597]},
+    {"bash512", "bash512", NID_bash512, 9, &so[9606]},
+    {"bash-prg-ae2561", "bash-prg-ae2561", NID_bash_prg_ae2561, 9, &so[9615]},
+    {"bign-curve256v1", "bign-curve256v1", NID_bign_curve256v1, 10, &so[9624]},
+    {"bign-curve384v1", "bign-curve384v1", NID_bign_curve384v1, 10, &so[9634]},
+    {"bign-curve512v1", "bign-curve512v1", NID_bign_curve512v1, 10, &so[9644]},
+    {"bign-with-hbelt", "bign-with-hbelt", NID_bign_with_hbelt, 9, &so[9654]},
+    {"bign-with-bash384", "bign-with-bash384", NID_bign_with_bash384, 9, &so[9663]},
+    {"bign-with-bash512", "bign-with-bash512", NID_bign_with_bash512, 9, &so[9672]},
+    {"bign", "bign", NID_bign, 8, &so[9681]},
 };
 
-#define NUM_SN 1492
+#define NUM_SN 1505
 static const unsigned int sn_objs[NUM_SN] = {
      364,    /* "AD_DVCS" */
      419,    /* "AES-128-CBC" */
@@ -3210,9 +3236,22 @@ static const unsigned int sn_objs[NUM_SN] = {
       90,    /* "authorityKeyIdentifier" */
      882,    /* "authorityRevocationList" */
     1314,    /* "authorizationValidation" */
+    1506,    /* "bash-prg-ae2561" */
+    1503,    /* "bash256" */
+    1504,    /* "bash384" */
+    1505,    /* "bash512" */
     1297,    /* "basicAttConstraints" */
       87,    /* "basicConstraints" */
      365,    /* "basicOCSPResponse" */
+    1502,    /* "belt-che256" */
+    1501,    /* "belt-hash" */
+    1513,    /* "bign" */
+    1507,    /* "bign-curve256v1" */
+    1508,    /* "bign-curve384v1" */
+    1509,    /* "bign-curve512v1" */
+    1511,    /* "bign-with-bash384" */
+    1512,    /* "bign-with-bash512" */
+    1510,    /* "bign-with-hbelt" */
      285,    /* "biometricInfo" */
      921,    /* "brainpoolP160r1" */
      922,    /* "brainpoolP160t1" */
@@ -4356,7 +4395,7 @@ static const unsigned int sn_objs[NUM_SN] = {
     1289,    /* "zstd" */
 };
 
-#define NUM_LN 1492
+#define NUM_LN 1505
 static const unsigned int ln_objs[NUM_LN] = {
      363,    /* "AD Time Stamping" */
      405,    /* "ANSI X9.62" */
@@ -4883,10 +4922,23 @@ static const unsigned int ln_objs[NUM_LN] = {
     1046,    /* "auth-rsa" */
     1052,    /* "auth-srp" */
      882,    /* "authorityRevocationList" */
+    1506,    /* "bash-prg-ae2561" */
+    1503,    /* "bash256" */
+    1504,    /* "bash384" */
+    1505,    /* "bash512" */
+    1502,    /* "belt-che256" */
+    1501,    /* "belt-hash" */
       91,    /* "bf-cbc" */
       93,    /* "bf-cfb" */
       92,    /* "bf-ecb" */
       94,    /* "bf-ofb" */
+    1513,    /* "bign" */
+    1507,    /* "bign-curve256v1" */
+    1508,    /* "bign-curve384v1" */
+    1509,    /* "bign-curve512v1" */
+    1511,    /* "bign-with-bash384" */
+    1512,    /* "bign-with-bash512" */
+    1510,    /* "bign-with-hbelt" */
     1056,    /* "blake2b512" */
     1201,    /* "blake2bmac" */
     1057,    /* "blake2s256" */
@@ -5852,7 +5904,7 @@ static const unsigned int ln_objs[NUM_LN] = {
      125,    /* "zlib compression" */
 };
 
-#define NUM_OBJ 1349
+#define NUM_OBJ 1362
 static const unsigned int obj_objs[NUM_OBJ] = {
        0,    /* OBJ_undef                        0 */
      181,    /* OBJ_iso                          1 */
@@ -6495,6 +6547,7 @@ static const unsigned int obj_objs[NUM_OBJ] = {
      971,    /* OBJ_camellia_256_ctr             0 3 4401 5 3 1 9 49 */
      972,    /* OBJ_camellia_256_cmac            0 3 4401 5 3 1 9 50 */
      437,    /* OBJ_pilot                        0 9 2342 19200300 100 */
+    1513,    /* OBJ_bign                         1 2 112 0 2 0 34 101 45 */
     1133,    /* OBJ_sm4_ecb                      1 2 156 10197 1 104 1 */
     1134,    /* OBJ_sm4_cbc                      1 2 156 10197 1 104 2 */
     1135,    /* OBJ_sm4_ofb128                   1 2 156 10197 1 104 3 */
@@ -6746,6 +6799,15 @@ static const unsigned int obj_objs[NUM_OBJ] = {
      439,    /* OBJ_pilotAttributeSyntax         0 9 2342 19200300 100 3 */
      440,    /* OBJ_pilotObjectClass             0 9 2342 19200300 100 4 */
      441,    /* OBJ_pilotGroups                  0 9 2342 19200300 100 10 */
+    1502,    /* OBJ_belt_che256                  1 2 112 0 2 0 34 101 31 66 */
+    1501,    /* OBJ_belt_hash                    1 2 112 0 2 0 34 101 31 81 */
+    1510,    /* OBJ_bign_with_hbelt              1 2 112 0 2 0 34 101 45 12 */
+    1511,    /* OBJ_bign_with_bash384            1 2 112 0 2 0 34 101 45 14 */
+    1512,    /* OBJ_bign_with_bash512            1 2 112 0 2 0 34 101 45 15 */
+    1503,    /* OBJ_bash256                      1 2 112 0 2 0 34 101 77 11 */
+    1504,    /* OBJ_bash384                      1 2 112 0 2 0 34 101 77 12 */
+    1505,    /* OBJ_bash512                      1 2 112 0 2 0 34 101 77 13 */
+    1506,    /* OBJ_bash_prg_ae2561              1 2 112 0 2 0 34 101 77 35 */
     1065,    /* OBJ_aria_128_ecb                 1 2 410 200046 1 1 1 */
     1066,    /* OBJ_aria_128_cbc                 1 2 410 200046 1 1 2 */
     1067,    /* OBJ_aria_128_cfb128              1 2 410 200046 1 1 3 */
@@ -7048,6 +7110,9 @@ static const unsigned int obj_objs[NUM_OBJ] = {
      455,    /* OBJ_pilotOrganization            0 9 2342 19200300 100 4 20 */
      456,    /* OBJ_pilotDSA                     0 9 2342 19200300 100 4 21 */
      457,    /* OBJ_qualityLabelledData          0 9 2342 19200300 100 4 22 */
+    1507,    /* OBJ_bign_curve256v1              1 2 112 0 2 0 34 101 45 3 1 */
+    1508,    /* OBJ_bign_curve384v1              1 2 112 0 2 0 34 101 45 3 2 */
+    1509,    /* OBJ_bign_curve512v1              1 2 112 0 2 0 34 101 45 3 3 */
     1281,    /* OBJ_hmacWithSM3                  1 2 156 10197 1 401 3 1 */
     1152,    /* OBJ_dstu28147                    1 2 804 2 1 1 1 1 1 1 */
     1156,    /* OBJ_hmacWithDstu34311            1 2 804 2 1 1 1 1 1 2 */

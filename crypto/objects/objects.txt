@@ -2066,3 +2066,22 @@ tcg-tr-category 37 : tcg-tr-cat-PublicKey 								: Public Key Trait Category
 nistKems 1 : id-alg-ml-kem-512  : ML-KEM-512
 nistKems 2 : id-alg-ml-kem-768  : ML-KEM-768
 nistKems 3 : id-alg-ml-kem-1024 : ML-KEM-1024
+
+!Alias by 1 2 112 
+!Alias belt by 0 2 0 34 101 31
+belt 81 : belt-hash : belt-hash
+belt 66 : belt-che256 : belt-che256
+
+!Alias bash by 0 2 0 34 101 77
+bash 11 : bash256 : bash256
+bash 12 : bash384 : bash384
+bash 13 : bash512 : bash512
+bash 35 : bash-prg-ae2561 : bash-prg-ae2561
+
+by 0 2 0 34 101 45 : bign 
+bign 3 1 : bign-curve256v1 : bign-curve256v1
+bign 3 2 : bign-curve384v1 : bign-curve384v1
+bign 3 3 : bign-curve512v1 : bign-curve512v1
+bign 12 : bign-with-hbelt : bign-with-hbelt
+bign 14 : bign-with-bash384 : bign-with-bash384
+bign 15 : bign-with-bash512 : bign-with-bash512

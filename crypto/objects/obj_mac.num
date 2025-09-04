@@ -1498,3 +1498,16 @@ HKDF_SHA384		1497
 HKDF_SHA512		1498
 id_smime_ori		1499
 id_smime_ori_kem		1500
+belt_hash		1501
+belt_che256		1502
+bash256		1503
+bash384		1504
+bash512		1505
+bash_prg_ae2561		1506
+bign_curve256v1		1507
+bign_curve384v1		1508
+bign_curve512v1		1509
+bign_with_hbelt		1510
+bign_with_bash384		1511
+bign_with_bash512		1512
+bign		1513
