@@ -6683,6 +6683,7 @@
 #define OBJ_bash_prg_ae2561             OBJ_bash,35L
 
 #define SN_bign         "bign"
+#define LN_bign         "bign"
 #define NID_bign                1513
 #define OBJ_bign                OBJ_by,0L,2L,0L,34L,101L,45L
 
