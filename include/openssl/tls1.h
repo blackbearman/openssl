@@ -1157,6 +1157,9 @@ int SSL_CTX_set_tlsext_ticket_key_evp_cb
 # define TLS1_TXT_RSA_PSK_WITH_ARIA_128_GCM_SHA256         "RSA-PSK-ARIA128-GCM-SHA256"
 # define TLS1_TXT_RSA_PSK_WITH_ARIA_256_GCM_SHA384         "RSA-PSK-ARIA256-GCM-SHA384"
 
+# define TLS1_TXT_BELT_CHE256_BELT_HASH                    "TLS-BELT-CHE256-BELT-HASH"
+# define TLS1_TXT_BASH_PRG_AE2561_BASH256                  "TLS-BASH-PRG-AE2561-BASH256"
+
 # define TLS_CT_RSA_SIGN                 1
 # define TLS_CT_DSS_SIGN                 2
 # define TLS_CT_RSA_FIXED_DH             3
