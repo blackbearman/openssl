@@ -452,6 +452,8 @@ static const ssl_trace_tbl ssl_ciphers_tbl[] = {
     {0xC0B5, "TLS_SHA384_SHA384"},
     {0xC100, "GOST2012-KUZNYECHIK-KUZNYECHIKOMAC"},
     {0xC101, "GOST2012-MAGMA-MAGMAOMAC"},
+    {0xFF1D, "TLS_BELT_CHE256_BELT_HASH"},
+    {0xFF1E, "TLS_BASH_PRG_AE2561_BASH256"},    
 };
 
 /* Compression methods */
@@ -609,7 +611,10 @@ static const ssl_trace_tbl ssl_sigalg_tbl[] = {
      */
     {0x0904, "mldsa44"},
     {0x0905, "mldsa65"},
-    {0x0906, "mldsa87"}
+    {0x0906, "mldsa87"},
+	{TLSEXT_SIGALG_bign_sign_128, "bign_auth128"},
+	{TLSEXT_SIGALG_bign_sign_192, "bign_auth192"},
+	{TLSEXT_SIGALG_bign_sign_256, "bign_auth256"},    
 };
 
 static const ssl_trace_tbl ssl_ctype_tbl[] = {

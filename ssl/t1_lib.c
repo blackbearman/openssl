@@ -190,7 +190,10 @@ static const struct {
     {NID_ffdhe3072, OSSL_TLS_GROUP_ID_ffdhe3072},
     {NID_ffdhe4096, OSSL_TLS_GROUP_ID_ffdhe4096},
     {NID_ffdhe6144, OSSL_TLS_GROUP_ID_ffdhe6144},
-    {NID_ffdhe8192, OSSL_TLS_GROUP_ID_ffdhe8192}
+    {NID_ffdhe8192, OSSL_TLS_GROUP_ID_ffdhe8192},
+    {NID_bign_curve256v1, OSSL_TLS_GROUP_ID_bign_curve256v1},
+    {NID_bign_curve384v1, OSSL_TLS_GROUP_ID_bign_curve384v1},
+    {NID_bign_curve512v1, OSSL_TLS_GROUP_ID_bign_curve512v1}
 };
 
 static const unsigned char ecformats_default[] = {
@@ -1968,6 +1971,9 @@ static const uint16_t tls12_sigalgs[] = {
     TLSEXT_SIGALG_gostr34102012_512_gostr34112012_512,
     TLSEXT_SIGALG_gostr34102001_gostr3411,
 #endif
+    TLSEXT_SIGALG_bign_sign_128,
+    TLSEXT_SIGALG_bign_sign_192,
+    TLSEXT_SIGALG_bign_sign_256    
 };
 
 
@@ -2154,6 +2160,24 @@ static const SIGALG_LOOKUP sigalg_lookup_tbl[] = {
      NID_undef, NID_undef, 1, 0,
      TLS1_2_VERSION, TLS1_2_VERSION, DTLS1_2_VERSION, DTLS1_2_VERSION},
 #endif
+    {TLSEXT_SIGALG_bign_sign_128_name, 
+     NULL, TLSEXT_SIGALG_bign_sign_128,
+     NID_belt_hash, SSL_MD_HBELT_IDX,
+     NID_bign, SSL_PKEY_BIGN,
+     NID_bign_with_hbelt, NID_bign_curve256v1,  1, 0,
+     TLS1_3_VERSION, 0, -1, -1},
+    {TLSEXT_SIGALG_bign_sign_192_name,
+     NULL, TLSEXT_SIGALG_bign_sign_192,
+     NID_bash384, SSL_MD_BASH384_IDX,
+     NID_bign, SSL_PKEY_BIGN,
+     NID_bign_with_bash384, NID_bign_curve384v1,  1, 0,
+     TLS1_3_VERSION, 0, -1, -1},
+    {TLSEXT_SIGALG_bign_sign_256_name, 
+     NULL, TLSEXT_SIGALG_bign_sign_256,
+     NID_bash512, SSL_MD_BASH512_IDX,
+     NID_bign, SSL_PKEY_BIGN,
+     NID_bign_with_bash512, NID_bign_curve512v1,  1, 0,
+     TLS1_3_VERSION, 0, -1, -1},
 };
 /* Legacy sigalgs for TLS < 1.2 RSA TLS signatures */
 static const SIGALG_LOOKUP legacy_rsa_sigalg = {
@@ -4121,6 +4145,10 @@ int tls1_check_chain(SSL_CONNECTION *s, X509 *x, EVP_PKEY *pk,
                 rsign = NID_id_GostR3410_2012_512;
                 default_nid = NID_id_tc26_signwithdigest_gost3410_2012_512;
                 break;
+            case SSL_PKEY_BIGN:
+                rsign = NID_bign;
+                default_nid = NID_bign_with_hbelt;
+                break;
 
             default:
                 default_nid = -1;
@@ -4283,6 +4311,7 @@ void tls1_set_cert_validity(SSL_CONNECTION *s)
     tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_GOST12_512);
     tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_ED25519);
     tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_ED448);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_BIGN);
 }
 
 /* User level utility function to check a chain is suitable */

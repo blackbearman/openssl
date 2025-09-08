@@ -100,6 +100,7 @@ extern "C" {
 # define SSL_TXT_kGOST           "kGOST"
 # define SSL_TXT_kGOST18         "kGOST18"
 # define SSL_TXT_kSRP            "kSRP"
+# define SSL_TXT_kBIGN           "kBIGN"
 
 # define SSL_TXT_aRSA            "aRSA"
 # define SSL_TXT_aDSS            "aDSS"
@@ -112,6 +113,7 @@ extern "C" {
 # define SSL_TXT_aGOST12         "aGOST12"
 # define SSL_TXT_aGOST           "aGOST"
 # define SSL_TXT_aSRP            "aSRP"
+# define SSL_TXT_aBIGN           "aBIGN"
 
 # define SSL_TXT_DSS             "DSS"
 # define SSL_TXT_DH              "DH"
@@ -150,6 +152,8 @@ extern "C" {
 # define SSL_TXT_ARIA256         "ARIA256"
 # define SSL_TXT_GOST2012_GOST8912_GOST8912 "GOST2012-GOST8912-GOST8912"
 # define SSL_TXT_CBC             "CBC"
+# define SSL_TXT_BELTCHE         "BELTCHE"
+# define SSL_TXT_BASHPRG         "BASHPRG"
 
 # define SSL_TXT_MD5             "MD5"
 # define SSL_TXT_SHA1            "SHA1"
@@ -160,6 +164,8 @@ extern "C" {
 # define SSL_TXT_GOST89MAC12     "GOST89MAC12"
 # define SSL_TXT_SHA256          "SHA256"
 # define SSL_TXT_SHA384          "SHA384"
+# define SSL_TXT_HBELT           "HBELT"
+# define SSL_TXT_BASH256         "BASH256"
 
 # define SSL_TXT_SSLV3           "SSLv3"
 # define SSL_TXT_TLSV1           "TLSv1"

@@ -62,5 +62,7 @@
 # define OSSL_TLS_GROUP_ID_SecP256r1MLKEM768  0x11EB
 # define OSSL_TLS_GROUP_ID_X25519MLKEM768     0x11EC
 # define OSSL_TLS_GROUP_ID_SecP384r1MLKEM1024 0x11ED
-
+# define OSSL_TLS_GROUP_ID_bign_curve256v1    0xFE01
+# define OSSL_TLS_GROUP_ID_bign_curve384v1    0xFE02
+# define OSSL_TLS_GROUP_ID_bign_curve512v1    0xFE03
 #endif

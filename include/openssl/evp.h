@@ -497,6 +497,9 @@ typedef struct {
 # define EVP_CCM_TLS_TAG_LEN                             16
 /* Length of CCM8 tag for TLS */
 # define EVP_CCM8_TLS_TAG_LEN                            8
+/* BTLS 1.3 tag lengths */
+# define EVP_BELT_CHE_TLS_TAG_LEN                        8
+# define EVP_BASH_PRG_TLS_TAG_LEN                        32
 
 /* Length of tag for TLS */
 # define EVP_CHACHAPOLY_TLS_TAG_LEN                      16

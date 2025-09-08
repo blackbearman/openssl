@@ -62,6 +62,8 @@ static const ssl_cipher_table ssl_cipher_table_cipher[SSL_ENC_NUM_IDX] = {
     {SSL_ARIA256GCM, NID_aria_256_gcm}, /* SSL_ENC_ARIA256GCM_IDX 21 */
     {SSL_MAGMA, NID_magma_ctr_acpkm}, /* SSL_ENC_MAGMA_IDX */
     {SSL_KUZNYECHIK, NID_kuznyechik_ctr_acpkm}, /* SSL_ENC_KUZNYECHIK_IDX */
+    {SSL_BELTCHE, NID_belt_che256}, /* SSL_ENC_BELTCHE_IDX */
+    {SSL_BASHPRG, NID_bash_prg_ae2561}, /* SSL_ENC_BASHPRG_IDX */
 };
 
 /* NB: make sure indices in this table matches values above */
@@ -78,8 +80,12 @@ static const ssl_cipher_table ssl_cipher_table_mac[SSL_MD_NUM_IDX] = {
     {0, NID_md5_sha1},          /* SSL_MD_MD5_SHA1_IDX 9 */
     {0, NID_sha224},            /* SSL_MD_SHA224_IDX 10 */
     {0, NID_sha512},            /* SSL_MD_SHA512_IDX 11 */
-    {SSL_MAGMAOMAC, NID_magma_mac}, /* sSL_MD_MAGMAOMAC_IDX */
-    {SSL_KUZNYECHIKOMAC, NID_kuznyechik_mac} /* SSL_MD_KUZNYECHIKOMAC_IDX */
+    {SSL_MAGMAOMAC, NID_magma_mac}, /* sSL_MD_MAGMAOMAC_IDX 12 */
+    {SSL_KUZNYECHIKOMAC, NID_kuznyechik_mac}, /* SSL_MD_KUZNYECHIKOMAC_IDX 13 */
+    {SSL_HBELT, NID_belt_hash}, /* SSL_MD_HBELT_IDX 14 */
+    {SSL_BASH256, NID_bash256}, /* SSL_MD_BASH256_IDX 15 */
+    {SSL_BASH384, NID_bash384}, /* SSL_MD_BASH384_IDX 16 */
+    {SSL_BASH512, NID_bash512}, /* SSL_MD_BASH512_IDX 17 */
 };
 
 /* *INDENT-OFF* */
@@ -94,6 +100,7 @@ static const ssl_cipher_table ssl_cipher_table_kx[] = {
     {SSL_kSRP,      NID_kx_srp},
     {SSL_kGOST,     NID_kx_gost},
     {SSL_kGOST18,   NID_kx_gost18},
+    {SSL_kBIGN,     NID_bign},
     {SSL_kANY,      NID_kx_any}
 };
 
@@ -105,6 +112,7 @@ static const ssl_cipher_table ssl_cipher_table_auth[] = {
     {SSL_aGOST01, NID_auth_gost01},
     {SSL_aGOST12, NID_auth_gost12},
     {SSL_aSRP,    NID_auth_srp},
+    {SSL_aBIGN,   NID_bign},
     {SSL_aNULL,   NID_auth_null},
     {SSL_aANY,    NID_auth_any}
 };
@@ -138,7 +146,9 @@ static const int default_mac_pkey_id[SSL_MD_NUM_IDX] = {
     /* GOST2012_512 */
     EVP_PKEY_HMAC,
     /* MD5/SHA1, SHA224, SHA512, MAGMAOMAC, KUZNYECHIKOMAC */
-    NID_undef, NID_undef, NID_undef, NID_undef, NID_undef
+    NID_undef, NID_undef, NID_undef, NID_undef, NID_undef,
+    /* HBELT, BASH256, BASH384, BASH512 */
+    NID_undef, NID_undef, NID_undef, NID_undef
 };
 
 #define CIPHER_ADD      1
@@ -206,6 +216,7 @@ static const SSL_CIPHER cipher_aliases[] = {
     {0, SSL_TXT_aGOST12, NULL, 0, 0, SSL_aGOST12},
     {0, SSL_TXT_aGOST, NULL, 0, 0, SSL_aGOST01 | SSL_aGOST12},
     {0, SSL_TXT_aSRP, NULL, 0, 0, SSL_aSRP},
+    {0, SSL_TXT_aBIGN, NULL, 0, SSL_aBIGN},
 
     /* aliases combining key exchange and server authentication */
     {0, SSL_TXT_EDH, NULL, 0, SSL_kDHE, ~SSL_aNULL},
@@ -248,6 +259,8 @@ static const SSL_CIPHER cipher_aliases[] = {
     {0, SSL_TXT_ARIA128, NULL, 0, 0, 0, SSL_ARIA128GCM},
     {0, SSL_TXT_ARIA256, NULL, 0, 0, 0, SSL_ARIA256GCM},
     {0, SSL_TXT_CBC, NULL, 0, 0, 0, SSL_CBC},
+    {0, SSL_TXT_BELTCHE, NULL, 0, 0, 0, SSL_BELTCHE},
+    {0, SSL_TXT_BASHPRG, NULL, 0, 0, 0, SSL_BASHPRG},
 
     /* MAC aliases */
     {0, SSL_TXT_MD5, NULL, 0, 0, 0, 0, SSL_MD5},
@@ -258,6 +271,8 @@ static const SSL_CIPHER cipher_aliases[] = {
     {0, SSL_TXT_SHA256, NULL, 0, 0, 0, 0, SSL_SHA256},
     {0, SSL_TXT_SHA384, NULL, 0, 0, 0, 0, SSL_SHA384},
     {0, SSL_TXT_GOST12, NULL, 0, 0, 0, 0, SSL_GOST12_256},
+    {0, SSL_TXT_HBELT, NULL, 0, 0, 0, 0, SSL_HBELT},
+    {0, SSL_TXT_BASH256, NULL, 0, 0, 0, 0, SSL_BASH256},
 
     /* protocol version aliases */
     {0, SSL_TXT_SSLV3, NULL, 0, 0, 0, 0, 0, SSL3_VERSION},
@@ -386,6 +401,16 @@ int ssl_load_ciphers(SSL_CTX *ctx)
         ctx->disabled_auth_mask |= SSL_aECDSA;
     else
         EVP_SIGNATURE_free(sig);
+    kex = EVP_KEYEXCH_fetch(ctx->libctx, "bign", ctx->propq);
+    if (kex == NULL)
+        ctx->disabled_mkey_mask |= SSL_kBIGN;
+    else
+        EVP_KEYEXCH_free(kex);
+    sig = EVP_SIGNATURE_fetch(ctx->libctx, "bign", ctx->propq);
+    if (sig == NULL)
+        ctx->disabled_auth_mask |= SSL_aBIGN;
+    else
+        EVP_SIGNATURE_free(sig);
     ERR_pop_to_mark();
 
 #ifdef OPENSSL_NO_PSK
@@ -430,6 +455,34 @@ int ssl_load_ciphers(SSL_CTX *ctx)
         ctx->ssl_mac_secret_size[SSL_MD_KUZNYECHIKOMAC_IDX] = 32;
     else
         ctx->disabled_mac_mask |= SSL_KUZNYECHIKOMAC;
+    
+    ctx->ssl_mac_pkey_id[SSL_MD_HBELT_IDX] =
+        get_optional_pkey_id(SN_belt_hash);
+    if (ctx->ssl_mac_pkey_id[SSL_MD_HBELT_IDX])
+        ctx->ssl_mac_secret_size[SSL_MD_HBELT_IDX] = 32;
+    else
+        ctx->disabled_mac_mask |= SSL_HBELT;
+
+    ctx->ssl_mac_pkey_id[SSL_MD_BASH256_IDX] =
+        get_optional_pkey_id(SN_bash256);
+    if (ctx->ssl_mac_pkey_id[SSL_MD_BASH256_IDX])
+        ctx->ssl_mac_secret_size[SSL_MD_BASH256_IDX] = 32;
+    else
+        ctx->disabled_mac_mask |= SSL_BASH256;
+
+    ctx->ssl_mac_pkey_id[SSL_MD_BASH384_IDX] =
+        get_optional_pkey_id(SN_bash384);
+    if (ctx->ssl_mac_pkey_id[SSL_MD_BASH384_IDX])
+        ctx->ssl_mac_secret_size[SSL_MD_BASH384_IDX] = 48;
+    else
+        ctx->disabled_mac_mask |= SSL_BASH384;
+
+    ctx->ssl_mac_pkey_id[SSL_MD_BASH512_IDX] =
+        get_optional_pkey_id(SN_bash512);
+    if (ctx->ssl_mac_pkey_id[SSL_MD_BASH512_IDX])
+        ctx->ssl_mac_secret_size[SSL_MD_BASH512_IDX] = 64;
+    else
+        ctx->disabled_mac_mask |= SSL_BASH512;
 
     if (!get_optional_pkey_id(SN_id_GostR3410_2001))
         ctx->disabled_auth_mask |= SSL_aGOST01 | SSL_aGOST12;
@@ -1734,6 +1787,9 @@ char *SSL_CIPHER_description(const SSL_CIPHER *cipher, char *buf, int len)
     case SSL_kGOST18:
         kx = "GOST18";
         break;
+    case SSL_kBIGN:
+        kx = "BIGN";
+        break;
     case SSL_kANY:
         kx = "any";
         break;
@@ -1766,6 +1822,9 @@ char *SSL_CIPHER_description(const SSL_CIPHER *cipher, char *buf, int len)
     /* New GOST ciphersuites have both SSL_aGOST12 and SSL_aGOST01 bits */
     case (SSL_aGOST12 | SSL_aGOST01):
         au = "GOST12";
+        break;
+    case SSL_aBIGN:
+        au = "BIGN";
         break;
     case SSL_aANY:
         au = "any";
@@ -1846,6 +1905,12 @@ char *SSL_CIPHER_description(const SSL_CIPHER *cipher, char *buf, int len)
     case SSL_CHACHA20POLY1305:
         enc = "CHACHA20/POLY1305(256)";
         break;
+    case SSL_BELTCHE:
+        enc = "BELTCHE(256)";
+        break;
+    case SSL_BASHPRG:
+        enc = "BASHPRG(2561)";
+        break;
     default:
         enc = "unknown";
         break;
@@ -1877,6 +1942,18 @@ char *SSL_CIPHER_description(const SSL_CIPHER *cipher, char *buf, int len)
     case SSL_GOST12_256:
     case SSL_GOST12_512:
         mac = "GOST2012";
+        break;
+    case SSL_HBELT:
+        mac = "HBELT";
+        break;
+    case SSL_BASH256:
+        mac = "BASH256";
+        break;
+    case SSL_BASH384:
+        mac = "BASH384";
+        break;
+    case SSL_BASH512:
+        mac = "BASH512";
         break;
     default:
         mac = "unknown";

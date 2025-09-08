@@ -664,6 +664,9 @@ int SSL_CTX_set_tlsext_ticket_key_evp_cb
 # define TLS1_CK_RSA_PSK_WITH_ARIA_128_GCM_SHA256         0x0300C06E
 # define TLS1_CK_RSA_PSK_WITH_ARIA_256_GCM_SHA384         0x0300C06F
 
+# define TLS1_CK_BELT_CHE256_BELT_HASH                    0x0300FF1D
+# define TLS1_CK_BASH_PRG_AE2561_BASH256                  0x0300FF1E
+
 /* a bundle of RFC standard cipher names, generated from ssl3_ciphers[] */
 # define TLS1_RFC_RSA_WITH_AES_128_SHA                   "TLS_RSA_WITH_AES_128_CBC_SHA"
 # define TLS1_RFC_DHE_DSS_WITH_AES_128_SHA               "TLS_DHE_DSS_WITH_AES_128_CBC_SHA"
@@ -856,6 +859,8 @@ int SSL_CTX_set_tlsext_ticket_key_evp_cb
 # define TLS1_RFC_DHE_PSK_WITH_ARIA_256_GCM_SHA384       "TLS_DHE_PSK_WITH_ARIA_256_GCM_SHA384"
 # define TLS1_RFC_RSA_PSK_WITH_ARIA_128_GCM_SHA256       "TLS_RSA_PSK_WITH_ARIA_128_GCM_SHA256"
 # define TLS1_RFC_RSA_PSK_WITH_ARIA_256_GCM_SHA384       "TLS_RSA_PSK_WITH_ARIA_256_GCM_SHA384"
+# define TLS1_RFC_BELT_CHE256_BELT_HASH                  "TLS_BELT_CHE256_BELT_HASH"
+# define TLS1_RFC_BASH_PRG_AE2561_BASH256                "TLS_BASH_PRG_AE2561_BASH256"
 
 
 /*
@@ -1164,6 +1169,7 @@ int SSL_CTX_set_tlsext_ticket_key_evp_cb
 # define TLS_CT_GOST12_IANA_512_SIGN     68
 # define TLS_CT_GOST12_LEGACY_SIGN       238
 # define TLS_CT_GOST12_LEGACY_512_SIGN   239
+# define TLS_CT_BIGN_SIGN                231
 
 # ifndef OPENSSL_NO_DEPRECATED_3_0
 #  define TLS_CT_GOST12_SIGN TLS_CT_GOST12_LEGACY_SIGN
