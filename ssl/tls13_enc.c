@@ -391,26 +391,32 @@ static int derive_secret_key_and_iv(SSL_CONNECTION *s, const EVP_MD *md,
         *keylen = EVP_CIPHER_get_key_length(ciph);
 
         mode = EVP_CIPHER_get_mode(ciph);
+        uint32_t algenc;
+        if (s->s3.tmp.new_cipher != NULL) {
+            algenc = s->s3.tmp.new_cipher->algorithm_enc;
+        } else if (s->session->cipher != NULL) {
+            /* We've not selected a cipher yet - we must be doing early data */
+            algenc = s->session->cipher->algorithm_enc;
+        } else if (s->psksession != NULL && s->psksession->cipher != NULL) {
+            /* We must be doing early data with out-of-band PSK */
+            algenc = s->psksession->cipher->algorithm_enc;
+        } else {
+            SSLfatal(s, SSL_AD_INTERNAL_ERROR, ERR_R_EVP_LIB);
+            return 0;
+        }
         if (mode == EVP_CIPH_CCM_MODE) {
             uint32_t algenc;
 
             *ivlen = EVP_CCM_TLS_IV_LEN;
-            if (s->s3.tmp.new_cipher != NULL) {
-                algenc = s->s3.tmp.new_cipher->algorithm_enc;
-            } else if (s->session->cipher != NULL) {
-                /* We've not selected a cipher yet - we must be doing early data */
-                algenc = s->session->cipher->algorithm_enc;
-            } else if (s->psksession != NULL && s->psksession->cipher != NULL) {
-                /* We must be doing early data with out-of-band PSK */
-                algenc = s->psksession->cipher->algorithm_enc;
-            } else {
-                SSLfatal(s, SSL_AD_INTERNAL_ERROR, ERR_R_EVP_LIB);
-                return 0;
-            }
+            
             if (algenc & (SSL_AES128CCM8 | SSL_AES256CCM8))
                 *taglen = EVP_CCM8_TLS_TAG_LEN;
             else
                 *taglen = EVP_CCM_TLS_TAG_LEN;
+        } else if (algenc & SSL_BELTCHE) {
+                *taglen = EVP_BELT_CHE_TLS_TAG_LEN;
+            } else if (algenc & SSL_BASHPRG) {
+                *taglen = EVP_BASH_PRG_TLS_TAG_LEN;
         } else {
             int iivlen;
 

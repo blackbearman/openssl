@@ -2265,7 +2265,10 @@ int ssl_setup_sigalgs(SSL_CTX *ctx)
     /* Now complete cache and tls12_sigalgs list with provider sig information */
     cache_idx = OSSL_NELEM(sigalg_lookup_tbl);
     for (i = 0; i < ctx->sigalg_list_len; i++) {
+        size_t idx;
         TLS_SIGALG_INFO si = ctx->sigalg_list[i];
+        if (!ssl_cert_lookup_by_nid(OBJ_txt2nid(si.sigalg_name), &idx, ctx))
+            goto err;
         cache[cache_idx].name = si.name;
         cache[cache_idx].name12 = si.sigalg_name;
         cache[cache_idx].sigalg = si.code_point;
@@ -2273,7 +2276,7 @@ int ssl_setup_sigalgs(SSL_CTX *ctx)
         cache[cache_idx].hash = si.hash_name?OBJ_txt2nid(si.hash_name):NID_undef;
         cache[cache_idx].hash_idx = ssl_get_md_idx(cache[cache_idx].hash);
         cache[cache_idx].sig = OBJ_txt2nid(si.sigalg_name);
-        cache[cache_idx].sig_idx = (int)(i + SSL_PKEY_NUM);
+        cache[cache_idx].sig_idx = idx;
         cache[cache_idx].sigandhash = OBJ_txt2nid(si.sigalg_name);
         cache[cache_idx].curve = NID_undef;
         cache[cache_idx].mintls = TLS1_3_VERSION;
