@@ -148,7 +148,7 @@ static const int default_mac_pkey_id[SSL_MD_NUM_IDX] = {
     /* MD5/SHA1, SHA224, SHA512, MAGMAOMAC, KUZNYECHIKOMAC */
     NID_undef, NID_undef, NID_undef, NID_undef, NID_undef,
     /* HBELT, BASH256, BASH384, BASH512 */
-    NID_undef, NID_undef, NID_undef, NID_undef
+    EVP_PKEY_HMAC, EVP_PKEY_HMAC, EVP_PKEY_HMAC, EVP_PKEY_HMAC
 };
 
 #define CIPHER_ADD      1
@@ -456,29 +456,29 @@ int ssl_load_ciphers(SSL_CTX *ctx)
     else
         ctx->disabled_mac_mask |= SSL_KUZNYECHIKOMAC;
     
-    ctx->ssl_mac_pkey_id[SSL_MD_HBELT_IDX] =
-        get_optional_pkey_id(SN_belt_hash);
+    // ctx->ssl_mac_pkey_id[SSL_MD_HBELT_IDX] =
+    //     get_optional_pkey_id(SN_belt_hash);
     if (ctx->ssl_mac_pkey_id[SSL_MD_HBELT_IDX])
         ctx->ssl_mac_secret_size[SSL_MD_HBELT_IDX] = 32;
     else
         ctx->disabled_mac_mask |= SSL_HBELT;
 
-    ctx->ssl_mac_pkey_id[SSL_MD_BASH256_IDX] =
-        get_optional_pkey_id(SN_bash256);
+    // ctx->ssl_mac_pkey_id[SSL_MD_BASH256_IDX] =
+    //     get_optional_pkey_id(SN_bash256);
     if (ctx->ssl_mac_pkey_id[SSL_MD_BASH256_IDX])
         ctx->ssl_mac_secret_size[SSL_MD_BASH256_IDX] = 32;
     else
         ctx->disabled_mac_mask |= SSL_BASH256;
 
-    ctx->ssl_mac_pkey_id[SSL_MD_BASH384_IDX] =
-        get_optional_pkey_id(SN_bash384);
+    // ctx->ssl_mac_pkey_id[SSL_MD_BASH384_IDX] =
+    //     get_optional_pkey_id(SN_bash384);
     if (ctx->ssl_mac_pkey_id[SSL_MD_BASH384_IDX])
         ctx->ssl_mac_secret_size[SSL_MD_BASH384_IDX] = 48;
     else
         ctx->disabled_mac_mask |= SSL_BASH384;
 
-    ctx->ssl_mac_pkey_id[SSL_MD_BASH512_IDX] =
-        get_optional_pkey_id(SN_bash512);
+    // ctx->ssl_mac_pkey_id[SSL_MD_BASH512_IDX] =
+    //     get_optional_pkey_id(SN_bash512);
     if (ctx->ssl_mac_pkey_id[SSL_MD_BASH512_IDX])
         ctx->ssl_mac_secret_size[SSL_MD_BASH512_IDX] = 64;
     else
